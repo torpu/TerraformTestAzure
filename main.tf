@@ -1,10 +1,5 @@
 terraform {
-     backend "azurerm" {
-    resource_group_name   = "chrisnonis-infra"
-    storage_account_name  = "chrisnoniststate"
-    container_name        = "tstate"
-    key                   = "MgKtgHDm0TaJJAVnVTU06Vcd1TmeyD6T6r0R9L/ii8Y63Lug268ql2j0/V8bFOAzBngK8qJCN4k6XtD0quSiyA=="
-}
+    
   required_providers {
     azurerm = {
       # Specify what version of the provider we are going to utilise
