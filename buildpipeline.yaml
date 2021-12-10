@@ -1,0 +1,32 @@
+trigger:
+- main
+ 
+pool:
+  name: Azure Pipelines
+  vmImage: 'vs2017-win2016'
+
+steps:
+- task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@0
+  displayName: 'Install Terraform latest'
+
+- task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV2@2
+  displayName: 'Terraform : INIT'
+  inputs:
+    backendServiceArm: 'azure training service connection'
+    backendAzureRmResourceGroupName: 'chrisnonis-infra'
+    backendAzureRmStorageAccountName: chrisnoniststate
+    backendAzureRmContainerName: tstate
+    backendAzureRmKey: 'MgKtgHDm0TaJJAVnVTU06Vcd1TmeyD6T6r0R9L/ii8Y63Lug268ql2j0/V8bFOAzBngK8qJCN4k6XtD0quSiyA=='
+
+- task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV2@2
+  displayName: 'Terraform : PLAN'
+  inputs:
+    command: plan
+    environmentServiceNameAzureRM: 'azure training service connection'
+
+- task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV2@2
+  displayName: 'Terraform : VALIDATE & APPLY'
+  inputs:
+    command: apply
+    environmentServiceNameAzureRM: 'azure training service connection'
+    backendServiceArm: 'azure training service connection'
